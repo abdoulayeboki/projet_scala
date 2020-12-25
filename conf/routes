@@ -13,3 +13,6 @@ GET     /*file                      controllers.FrontendController.assetOrDefaul
 
 # Test post request
 POST    /api/postTest               controllers.HomeController.postTest()
+
+
+GET     /api/todos                  controllers.HomeController.getAll
