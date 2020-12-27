@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center"> 
+<div id="wrapper"> 
   <!-- <h1>
     Welcome to {{title}}!
   </h1>
@@ -14,9 +14,12 @@
       <img width="300" src="../assets/angular.svg">
     </a>
   </nav> -->
-  <app-header></app-header>
   <app-sidebar></app-sidebar>
-  <router-outlet></router-outlet>
+  <div id="page-wrapper" class="gray-bg dashbard-1">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </div>
+  
   <!-- <div>
     <h2>Check out the project on GitHub for more information</h2>
     <h3>
