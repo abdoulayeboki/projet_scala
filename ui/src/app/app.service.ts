@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/index';
 export class AppService {
   private serviceUrl = '/api/summary';
   private dataPostTestUrl = '/api/postTest';
+  private todoUrl = "api/todos"
 
   constructor(private http: HttpClient) {
   }
@@ -32,4 +33,14 @@ export class AppService {
   public sendData(): Observable<any> {
     return this.http.post(this.dataPostTestUrl, {});
   }
+
+   /**
+   * Makes a http get request to retrieve the welcome message from the backend service.
+   */
+  public getTodos() {
+    return this.http.get(this.todoUrl).pipe(
+      // map(response => response)
+    );
+  }
+
 }
