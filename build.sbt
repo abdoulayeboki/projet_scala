@@ -13,5 +13,5 @@ scalaVersion := "2.12.8"
 libraryDependencies += guice
 libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "8.0.22",
-  "com.typesafe.slick" %% "slick" % "3.3.2"
+  "com.typesafe.slick" %% "slick" % "3.3.2",
 )

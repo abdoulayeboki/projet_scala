@@ -12,3 +12,5 @@ prerequis pour lancer le projet
        GRANT ALL ON *.* TO 'admin'@'localhost';
 
 
+  . Installer angular avec ces commandes 
+       . npm install -g @angular/cli
