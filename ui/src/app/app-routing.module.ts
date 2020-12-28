@@ -1,3 +1,5 @@
+import { SalleAddComponent } from './components/salle-add/salle-add.component';
+import { ClasseAddComponent } from './components/classe-add/classe-add.component';
 import { CoursAddComponent } from './components/cours-add/cours-add.component';
 import { CoursListComponent } from './components/cours-list/cours-list.component';
 import { ProfesseurAddComponent } from './components/professeur-add/professeur-add.component';
@@ -13,6 +15,8 @@ import { GradeListComponent } from './components/grade-list/grade-list.component
 import { GradeAddComponent } from './components/grade-add/grade-add.component';
 import { EtudiantAddComponent } from './components/etudiant-add/etudiant-add.component';
 import { ProfesseurListComponent } from './components/professeur-list/professeur-list.component';
+import { ClasseListComponent } from './components/classe-list/classe-list.component';
+import { SalleListComponent } from './components/salle-list/salle-list.component';
 
 
 const routes: Routes = [
@@ -68,8 +72,24 @@ const routes: Routes = [
     component: CoursListComponent,
   },
   {
+    path: 'classe_add',
+    component: ClasseAddComponent,
+  }, 
+  {
+    path: 'classe_list',
+    component: ClasseListComponent,
+  },
+  {
     path: 'cours_add',
     component: CoursAddComponent,
+  },
+  {
+    path: 'salle_list',
+    component: SalleListComponent,
+  },
+  {
+    path: 'salle_add',
+    component: SalleAddComponent,
   },
    {
     path: 'todos',

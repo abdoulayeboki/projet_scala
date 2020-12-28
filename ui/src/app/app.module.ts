@@ -26,6 +26,8 @@ import { CoursAddComponent } from './components/cours-add/cours-add.component';
 import { CoursListComponent } from './components/cours-list/cours-list.component';
 import { NoteAddComponent } from './components/note-add/note-add.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
+import { SalleListComponent } from './components/salle-list/salle-list.component';
+import { SalleAddComponent } from './components/salle-add/salle-add.component';
 
 
 
@@ -50,7 +52,9 @@ import { NoteListComponent } from './components/note-list/note-list.component';
     CoursAddComponent,
     CoursListComponent,
     NoteAddComponent,
-    NoteListComponent
+    NoteListComponent,
+    SalleListComponent,
+    SalleAddComponent
   ],
   imports: [
     BrowserModule,
