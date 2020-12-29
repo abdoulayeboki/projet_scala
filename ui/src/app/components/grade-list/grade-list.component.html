@@ -37,34 +37,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="gradeX">
-                        <td>Trident</td>
-                        <td>Internet
-                            Explorer 4.0
+                    <tr class="gradeX" *ngFor = "let grade of  grades">
+                        <td>{{grade.id}}</td>
+                        <td>{{grade.libelle}}
                         </td>
                         <td>Win 95+</td>
-                    </tr>
-                    <tr class="gradeC">
-                        <td>Trident</td>
-                        <td>Internet
-                            Explorer
-                        </td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>Trident</td>
-                        <td>Internet
-                            Explorer 5.5
-                        </td>
-                        <td>Win 95+</td>
-                        <td class="center">5.5</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>Gecko</td>
-                        <td>Netscape Navigator 9</td>
-                        <td>Win 98+ / OSX.2+</td>
-                        <td class="center">1.8</td>
                     </tr>
                     </tbody>
                     <tfoot>

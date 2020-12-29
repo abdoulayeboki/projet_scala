@@ -1,3 +1,4 @@
+import { GradeServiceService } from './service/grade-service.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
@@ -68,6 +69,7 @@ import { SalleAddComponent } from './components/salle-add/salle-add.component';
   ],
   providers: [
     AppService,
+    GradeServiceService,
     {
       multi: true,
       provide: HTTP_INTERCEPTORS,
