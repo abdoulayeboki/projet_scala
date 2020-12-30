@@ -1,3 +1,12 @@
+Membre de l'equipe 
+----------------------------------
+
+Abdoulaye SARR Master Big DATA
+Aissatou DIOP  Master  Big data
+---------------------------------
+
+
+------------------------------------------------------------------
 prerequis pour lancer le projet 
 
  . installer sbt dans la machine et dans l'éditeur telque intellij ou vs code
@@ -14,3 +23,12 @@ prerequis pour lancer le projet
 
   . Installer angular avec ces commandes 
        . npm install -g @angular/cli
+
+  importer la base de donnée projetScala.sql trouvant dans la racine du projet 
+
+------------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+--- lancer le projet en utilisant la ligne de commande avec :
+    -- sbt run 

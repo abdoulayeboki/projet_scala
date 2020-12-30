@@ -1,53 +1,71 @@
 package models
+import com.google.inject.Inject
+import play.api.data.Form
+import play.api.data.Forms.mapping
+import play.api.data.Forms._
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import slick.jdbc.MySQLProfile.api._
+ 
+case class Matiere(val codeMatiere:String, val libelle:String, val coefficient: Long)
+case class MatiereFormData(codeMatiere: String,libelle: String, coefficient: Long)
 
-import scala.collection.mutable.ListBuffer
+object MatiereForm {
+  val form = Form(
+    mapping(
+      "codeMatiere" -> nonEmptyText,
+      "libelle" -> nonEmptyText,
+      "coefficient" -> longNumber
+    )(MatiereFormData.apply)(MatiereFormData.unapply)
+  )
+}
+class MatiereTableDef(tag: Tag) extends Table[Matiere](tag, "matiere") {
+ 
+  def codeMatiere = column[String]("codeMatiere", O.PrimaryKey)
+  def libelle = column[String]("libelle")
+  def coefficient = column[Long]("coefficient")
+ 
+  override def * = (codeMatiere,libelle, coefficient) <> (Matiere.tupled, Matiere.unapply)
+}
 
-class Matiere (code:String,libelle:String,coefficient:Int){
-  private[this] var _codeMatiere: String = code
-  private[this] var _libelleMatiere: String = libelle
-  private[this] var _coefficientMatiere: Int = coefficient
-  private[this] var _notes: ListBuffer[Note] = null
-  private[this] var _cours: List[Cours] = null
+class Matieres @Inject()(
+    protected val dbConfigProvider: DatabaseConfigProvider)
+    (implicit executionContext: ExecutionContext)
+    extends HasDatabaseConfigProvider[JdbcProfile] {
+        var matieres = TableQuery[MatiereTableDef]
 
-  // definition de la methode permettant d'ajouter une note dans la collection _notes
-  def addNotes(note: ListBuffer[Note]): ListBuffer[Note] = {
-    if (_notes == null )
-      _notes = note
-    else
-      _notes = note++_notes // ajout de la note au debut de la liste
-    return _notes
-  }
+    def getAll: Future[Seq[Matiere]] = {
+       dbConfig.db.run(matieres.result)
+       }
 
-  // getter setter
-  def cours: List[Cours] = _cours
+//     def add(matiereItem: Matiere): Future[String] = {
+//       dbConfig.db
+//       .run(matieres += matiereItem)
+//       .map(res => "MatiereItem successfully added")
+//       .recover {
+//         case ex: Exception => {
+//             printf(ex.getMessage())
+//             ex.getMessage
+//         }
+//       }
+//   }
+//    def delete(id: Long): Future[Int] = {
+//     dbConfig.db.run(matieres.filter(_.id === id).delete)
+//   }
 
-  def cours_=(value: List[Cours]): Unit = {
-    _cours = value
-  }
+// def update(matiereItem: Matiere): Future[Int] = {
+//     dbConfig.db
+//       .run(matieres.filter(_.id === matiereItem.id)
+//             .map(x => (x.libelle))
+//             .update(matiereItem.libelle)
+//       )
+//   }
 
-  def notes: ListBuffer[Note] = _notes
+//   def get(id: Long): Future[Option[Matiere]] = {
+//     dbConfig.db.run(matieres.filter(_.id === id).result.headOption)
+//   }
+ 
+  
 
-  def notes_=(value: ListBuffer[Note]): Unit = {
-    _notes = value
-  }
-
-  def codeMatiere: String = _codeMatiere
-
-  def codeMatiere_=(value: String): Unit = {
-    _codeMatiere = value
-  }
-
-  def libelleMatiere: String = _libelleMatiere
-
-  def libelleMatiere_=(value: String): Unit = {
-    _libelleMatiere = value
-  }
-
-  def coefficientMatiere: Int = _coefficientMatiere
-
-  def coefficientMatiere_=(value: Int): Unit = {
-    _coefficientMatiere = value
-  }
-
-  override def toString = s"Matiere($codeMatiere, $libelleMatiere)"
 }

@@ -1,53 +1,81 @@
 package models
-import java.util.Date
+import com.google.inject.Inject
+import play.api.data.Form
+import play.api.data.Forms.mapping
+import play.api.data.Forms._
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import slick.jdbc.MySQLProfile.api._
+import java.sql.Date
 
-class Cours (dateD:Date,dateF:Date,prof:Professeur,sal:Salle,mat:Matiere,clas: Classe){
-  private[this] var _dateDebut: Date = dateD
-  private[this] var _dateFin: Date = dateF
-  private[this] var _professeur: Professeur = prof
-  private[this] var _salle: Salle = sal
-  private[this] var _matiere: Matiere = mat
-  private[this] var _classe: Classe = clas
+ 
+case class Cours(val id:Long, val date_debut:Date,val date_fin: Date, val id_professeur: Long,
+  val id_salle: Long, val id_classe: Long)
+case class CoursFormData( val date_debut:Date,val date_fin: Date,val id_professeur: Long,
+  val id_salle: Long, val id_classe: Long)
 
-  def classe: Classe = _classe
+object CoursForm {
+  val form = Form(
+    mapping(
+      "date_debut" -> sqlDate,
+      "date_fin" -> sqlDate,
+      "id_professeur" -> longNumber,
+      "id_salle" -> longNumber,
+      "id_classe" -> longNumber
+    )(CoursFormData.apply)(CoursFormData.unapply)
+  )
+}
+class CoursTableDef(tag: Tag) extends Table[Cours](tag, "cours") {
+ 
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def date_debut = column[Date]("date_debut")
+  def date_fin = column[Date]("date_fin")
+  def id_professeur = column[Long]("id_professeur")
+  def id_salle = column[Long]("id_salle")
+  def id_classe = column[Long]("id_classe")
+ 
+  override def * = (id,date_debut,date_fin,id_professeur,id_salle,id_classe) <>
+   (Cours.tupled, Cours.unapply)
+}
 
-  def classe_=(value: Classe): Unit = {
-    _classe = value
-  }
+class Courss @Inject()(
+    protected val dbConfigProvider: DatabaseConfigProvider)
+    (implicit executionContext: ExecutionContext)
+    extends HasDatabaseConfigProvider[JdbcProfile] {
+        var cours = TableQuery[CoursTableDef]
 
-  def matiere: Matiere = _matiere
+    def getAll: Future[Seq[Cours]] = {
+       dbConfig.db.run(cours.result)
+       }
 
-  def matiere_=(value: Matiere): Unit = {
-    _matiere = value
-  }
+//     def add(coursItem: Cours): Future[String] = {
+//       dbConfig.db
+//       .run(courss += coursItem)
+//       .map(res => "CoursItem successfully added")
+//       .recover {
+//         case ex: Exception => {
+//             printf(ex.getMessage())
+//             ex.getMessage
+//         }
+//       }
+//   }
+//    def delete(id: Long): Future[Int] = {
+//     dbConfig.db.run(courss.filter(_.id === id).delete)
+//   }
 
-  def salle: Salle = _salle
+// def update_debut(coursItem: Cours): Future[Int] = {
+//     dbConfig.db
+//       .run(courss.filter(_.id === coursItem.id)
+//             .map(x => (x.libelle))
+//             .update_debut(coursItem.libelle)
+//       )
+//   }
 
-  def salle_=(value: Salle): Unit = {
-    _salle = value
-  }
+//   def get(id: Long): Future[Option[Cours]] = {
+//     dbConfig.db.run(courss.filter(_.id === id).result.headOption)
+//   }
+ 
+  
 
-
-  def professeur: Professeur = _professeur
-
-  def professeur_=(value: Professeur): Unit = {
-    _professeur = value
-  }
-
-
-  def dateFin: Date = _dateFin
-
-  def dateFin_=(value: Date): Unit = {
-    _dateFin = value
-  }
-
-
-  def dateDebut: Date = _dateDebut
-
-  def dateDebut_=(value: Date): Unit = {
-    _dateDebut = value
-  }
-
-
-  override def toString = s"Cours($classe, $matiere, $salle, $professeur, $dateFin, $dateDebut)"
 }

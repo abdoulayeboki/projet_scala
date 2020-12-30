@@ -1,3 +1,5 @@
+import {  MatiereListComponent } from './components/matiere-list/matiere-list.component';
+import { MatiereAddComponent } from './components/matiere-add/matiere-add.component';
 import { SalleAddComponent } from './components/salle-add/salle-add.component';
 import { ClasseAddComponent } from './components/classe-add/classe-add.component';
 import { CoursAddComponent } from './components/cours-add/cours-add.component';
@@ -50,6 +52,14 @@ const routes: Routes = [
   {
     path: 'grade_add',
     component: GradeAddComponent,
+  },
+  {
+    path: 'matiere_list',
+    component: MatiereListComponent
+  },
+  {
+    path: 'matiere_add',
+    component: MatiereAddComponent,
   },
   {
     path: 'etudiant_list',

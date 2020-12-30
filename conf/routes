@@ -20,6 +20,12 @@ GET     /api/getEtudiant              controllers.EtudiantController.getAll
 
 GET     /api/getProfesseur              controllers.ProfesseurController.getAll
 
+GET     /api/getSalle              controllers.SalleController.getAll
+
+GET     /api/getMatiere             controllers.MatiereController.getAll
+
+GET     /api/getCours             controllers.CoursController.getAll
+
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)
 

@@ -20,7 +20,6 @@ import { EtudiantListComponent } from './components/etudiant-list/etudiant-list.
 import { EtudiantAddComponent } from './components/etudiant-add/etudiant-add.component';
 import { ProfesseurListComponent } from './components/professeur-list/professeur-list.component';
 import { ProfesseurAddComponent } from './components/professeur-add/professeur-add.component';
-import { CoursComponent } from './components/cours/cours.component';
 import { ClasseListComponent } from './components/classe-list/classe-list.component';
 import { ClasseAddComponent } from './components/classe-add/classe-add.component';
 import { CoursAddComponent } from './components/cours-add/cours-add.component';
@@ -29,6 +28,8 @@ import { NoteAddComponent } from './components/note-add/note-add.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
 import { SalleListComponent } from './components/salle-list/salle-list.component';
 import { SalleAddComponent } from './components/salle-add/salle-add.component';
+import { MatiereAddComponent } from './components/matiere-add/matiere-add.component';
+import { MatiereListComponent } from './components/matiere-list/matiere-list.component';
 
 
 
@@ -47,7 +48,6 @@ import { SalleAddComponent } from './components/salle-add/salle-add.component';
     EtudiantAddComponent,
     ProfesseurListComponent,
     ProfesseurAddComponent,
-    CoursComponent,
     ClasseListComponent,
     ClasseAddComponent,
     CoursAddComponent,
@@ -55,7 +55,9 @@ import { SalleAddComponent } from './components/salle-add/salle-add.component';
     NoteAddComponent,
     NoteListComponent,
     SalleListComponent,
-    SalleAddComponent
+    SalleAddComponent,
+    MatiereAddComponent,
+    MatiereListComponent
   ],
   imports: [
     BrowserModule,

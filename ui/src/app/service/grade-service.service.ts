@@ -16,8 +16,8 @@ export class GradeServiceService {
      return this.http.get(this.urlGradeAll);
    }
    
-   public postGrade(grade: any){
-    return this.http.post(`api/postGrade`,grade);
-  }
+  //  public postGrade(grade: any){
+  //   return this.http.post(`api/postGrade`,grade);
+  // }
   
 }

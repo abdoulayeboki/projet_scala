@@ -29,40 +29,15 @@
 
                 <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                     <thead>
-                    <tr>
+                    <tr class="bg-success">
                         <th>Id Salle</th>
                         <th>Libelle Salle</th>
-                        <th data-hide="phone,tablet">Supprimer</th>
-                        <th data-hide="phone,tablet">Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="gradeX">
-                        <td>1</td>
-                        <td>Licence 1
-                        </td>
-                        <td>Supprimer</td>
-                        <td>edi</td>
-                    </tr>
-                    <tr class="gradeC">
-                        <td>2</td>
-                        <td>Licence 2
-                        </td>
-                        <td>supprimer</td>
-                        <td class="center">edit</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>3</td>
-                        <td>Licence 3
-                        </td>
-                        <td>sup</td>
-                   <td class="center">edit</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>6</td>
-                        <td>Master 1</td>
-                        <td>sup</td>
-                        <td class="center">edit</td>
+                    <tr *ngFor="let salle of salles" class="salleX">
+                        <td>{{salle.id}} </td>
+                        <td>{{salle.libelle}}</td>
                     </tr>
                     </tbody>
                     <tfoot>

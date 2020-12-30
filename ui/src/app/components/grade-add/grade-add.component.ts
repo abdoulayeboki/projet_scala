@@ -13,15 +13,15 @@ export class GradeAddComponent implements OnInit {
 
   ngOnInit() {
   }
-  addGrade(){
-     this.gradeServiceService.postGrade("{'libelle':'B'}").subscribe(
-       data => {
-         console.log(data)
-       },
-       error => {
-         console.log(error)
-       }
-      );
-  }
+  // addGrade(){
+  //    this.gradeServiceService.postGrade("{'libelle':'B'}").subscribe(
+  //      data => {
+  //        console.log(data)
+  //      },
+  //      error => {
+  //        console.log(error)
+  //      }
+  //     );
+  // }
 
 }

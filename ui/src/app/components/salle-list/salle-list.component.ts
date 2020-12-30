@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SalleService } from 'src/app/service/salle.service';
 
 @Component({
   selector: 'app-salle-list',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalleListComponent implements OnInit {
 
-  constructor() { }
-
+  private salles :any
+  constructor(private salleServiceService : SalleService) { }
+  
   ngOnInit() {
+    this.getSalles()
+  }
+
+  getSalles(){
+    this.salleServiceService.getSalles().subscribe(
+       data => {
+        console.log(data);
+        this.salles = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }
