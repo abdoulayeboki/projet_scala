@@ -1,3 +1,4 @@
+import { ClasseService } from './../../service/classe.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./classe-list.component.css']
 })
 export class ClasseListComponent implements OnInit {
+  private classes :any
 
-  constructor() { }
+  constructor(private classeService: ClasseService) { }
 
   ngOnInit() {
+    this.getClasses()
   }
-
+  getClasses(){
+    this.classeService.getClasses().subscribe(
+       data => {
+        console.log(data);
+        this.classes = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
 }

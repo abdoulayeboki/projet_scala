@@ -27,10 +27,11 @@ class GradeTableDef(tag: Tag) extends Table[Grade](tag, "grade") {
 }
 
 class Grades @Inject()(
-    protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
+    protected val dbConfigProvider: DatabaseConfigProvider)
+    (implicit executionContext: ExecutionContext)
     extends HasDatabaseConfigProvider[JdbcProfile] {
         var grades = TableQuery[GradeTableDef]
-        def add(gradeItem: Grade): Future[String] = {
+    def add(gradeItem: Grade): Future[String] = {
       dbConfig.db
       .run(grades += gradeItem)
       .map(res => "GradeItem successfully added")

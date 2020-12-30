@@ -33,37 +33,15 @@
                     <tr>
                         <th>Id Classe</th>
                         <th>Libelle Classe</th>
-                        <th data-hide="phone,tablet">Supprimer</th>
-                        <th data-hide="phone,tablet">Edit</th>
+                        <th data-hide="phone,tablet">Id Niveau</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="gradeX">
-                        <td>1</td>
-                        <td>Licence 1
+                    <tr class="gradeX" *ngFor="let classe of classes">
+                        <td>{{classe.id}} </td>
+                        <td>{{classe.libelle}}
                         </td>
-                        <td>Supprimer</td>
-                        <td>edi</td>
-                    </tr>
-                    <tr class="gradeC">
-                        <td>2</td>
-                        <td>Licence 2
-                        </td>
-                        <td>supprimer</td>
-                        <td class="center">edit</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>3</td>
-                        <td>Licence 3
-                        </td>
-                        <td>sup</td>
-                   <td class="center">edit</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>6</td>
-                        <td>Master 1</td>
-                        <td>sup</td>
-                        <td class="center">edit</td>
+                        <td>{{classe.id_niveau}}</td>
                     </tr>
                     </tbody>
                     <tfoot>

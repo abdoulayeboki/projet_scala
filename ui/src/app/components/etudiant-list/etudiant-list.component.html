@@ -34,48 +34,15 @@
                         <th>Nom </th>
                         <th>Prenom</th>
                         <th>Classe</th>
-                        <th data-hide="phone,tablet">Supprimer</th>
-                        <th data-hide="phone,tablet">Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="gradeX">
-                        <td>Trident</td>
-                        <td>Internet
-                            Explorer 4.0
+                    <tr class="gradeX" *ngFor=" let etudiant of etudiants"> 
+                        <td>{{etudiant.id}} </td>
+                        <td>{{etudiant.nom}}
                         </td>
-                        <td>Win 95+</td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
-                        <td class="center">5</td>
-                    </tr>
-                    <tr class="gradeC">
-                        <td>Trident</td>
-                        <td>Internet
-                            Explorer 5.0
-                        </td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>Trident</td>
-                        <td>Internet
-                            Explorer 5.5
-                        </td>
-                        <td>Win 95+</td>
-                        <td class="center">5.5</td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td>Gecko</td>
-                        <td>Netscape Navigator 9</td>
-                        <td>Win 98+ / OSX.2+</td>
-                        <td class="center">1.8</td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
+                        <td>{{etudiant.prenom}}</td>
+                        <td>{{etudiant.id_classe}}</td>
                     </tr>
                     </tbody>
                     <tfoot>

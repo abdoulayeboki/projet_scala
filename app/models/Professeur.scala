@@ -1,52 +1,72 @@
 package models
+import com.google.inject.Inject
+import play.api.data.Form
+import play.api.data.Forms.mapping
+import play.api.data.Forms._
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import slick.jdbc.MySQLProfile.api._
+ 
+case class Professeur(val id:Long, val nom:String,prenom: String, val id_grade: Long)
+case class ProfesseurFormData(nom: String,prenom: String, id_grade: Long)
 
-class Professeur(var id:Int, nom:String, prenom:String, grade:Grade){
-  // definition des attributs
-  private[this] var _idProfesseur: Int = id
-  private[this] var _nomProfesseur: String = nom
-  private[this] var _prenomProfesseur: String = prenom
-  private[this] var _gradeProfesseur: Grade = grade
-  private[this] var _cours: List[Cours] = null
+object ProfesseurForm {
+  val form = Form(
+    mapping(
+      "nom" -> nonEmptyText,
+      "prenom" -> nonEmptyText,
+      "id_grade" -> longNumber
+    )(ProfesseurFormData.apply)(ProfesseurFormData.unapply)
+  )
+}
+class ProfesseurTableDef(tag: Tag) extends Table[Professeur](tag, "professeur") {
+ 
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def nom = column[String]("nom")
+  def prenom = column[String]("prenom")
+  def id_grade = column[Long]("id_grade")
+ 
+  override def * = (id, nom,prenom, id_grade) <> (Professeur.tupled, Professeur.unapply)
+}
 
-  // definition de la methode permettant d'ajouter un cours dans la collection _cours
-  def addCours(cour: List[Cours]): List[Cours] = {
-    if (cours == null)
-      _cours = cour
-    else
-      _cours = cours ++ cour // ajout cours au debut de la liste
-    return _cours
-  }
-  // getter setter
-  def cours: List[Cours] = _cours
+class Professeurs @Inject()(
+    protected val dbConfigProvider: DatabaseConfigProvider)
+    (implicit executionContext: ExecutionContext)
+    extends HasDatabaseConfigProvider[JdbcProfile] {
+        var professeurs = TableQuery[ProfesseurTableDef]
 
-  def cours_=(value: List[Cours]): Unit = {
-    _cours = value
-  }
+    def getAll: Future[Seq[Professeur]] = {
+       dbConfig.db.run(professeurs.result)
+       }
 
-  def idProfesseur: Int = _idProfesseur
+//     def add(professeurItem: Professeur): Future[String] = {
+//       dbConfig.db
+//       .run(professeurs += professeurItem)
+//       .map(res => "ProfesseurItem successfully added")
+//       .recover {
+//         case ex: Exception => {
+//             printf(ex.getMessage())
+//             ex.getMessage
+//         }
+//       }
+//   }
+//    def delete(id: Long): Future[Int] = {
+//     dbConfig.db.run(professeurs.filter(_.id === id).delete)
+//   }
 
-  def idProfesseur_=(value: Int): Unit = {
-    _idProfesseur = value
-  }
+// def update(professeurItem: Professeur): Future[Int] = {
+//     dbConfig.db
+//       .run(professeurs.filter(_.id === professeurItem.id)
+//             .map(x => (x.libelle))
+//             .update(professeurItem.libelle)
+//       )
+//   }
 
-  def nomProfesseur: String = _nomProfesseur
+//   def get(id: Long): Future[Option[Professeur]] = {
+//     dbConfig.db.run(professeurs.filter(_.id === id).result.headOption)
+//   }
+ 
+  
 
-  def nomProfesseur_=(value: String): Unit = {
-    _nomProfesseur = value
-  }
-
-  def prenomProfesseur: String = _prenomProfesseur
-
-  def prenomProfesseur_=(value: String): Unit = {
-    _prenomProfesseur = value
-  }
-
-
-  def gradeProfesseur: Grade = _gradeProfesseur
-
-  def gradeProfesseur_=(value: Grade): Unit = {
-    _gradeProfesseur = value
-  }
-  // fin getter setter
-  override def toString = s"Professeur($idProfesseur, $nomProfesseur, $prenomProfesseur, $gradeProfesseur)"
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NiveauService } from './../../service/niveau.service';
 
 @Component({
   selector: 'app-niveau-list',
@@ -6,10 +7,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./niveau-list.component.css']
 })
 export class NiveauListComponent implements OnInit {
+  private niveaux : any
 
-  constructor() { }
+  constructor(private niveauService: NiveauService) { }
 
-  ngOnInit() {
+   ngOnInit() {
+    this.getNiveaus()
   }
 
+  getNiveaus(){
+    this.niveauService.getNiveaus().subscribe(
+       data => {
+        console.log(data);
+        this.niveaux = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
 }

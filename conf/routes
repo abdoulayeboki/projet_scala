@@ -10,7 +10,15 @@ GET     /api/summary                controllers.HomeController.appSummary
 
 
 GET     /api/gradeAll               controllers.GradeController.getAll
-#POST    /api/postTest               controllers.HomeController.postTest()
+POST    /api/postGrade              controllers.GradeController.add
+
+GET     /api/getNiveau               controllers.NiveauController.getAll
+
+GET     /api/getClasse               controllers.ClasseController.getAll
+
+GET     /api/getEtudiant              controllers.EtudiantController.getAll
+
+GET     /api/getProfesseur              controllers.ProfesseurController.getAll
 
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)

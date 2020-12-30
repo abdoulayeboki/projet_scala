@@ -1,4 +1,3 @@
-import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,5 +16,8 @@ export class GradeServiceService {
      return this.http.get(this.urlGradeAll);
    }
    
+   public postGrade(grade: any){
+    return this.http.post(`api/postGrade`,grade);
+  }
   
 }

@@ -1,50 +1,72 @@
 package models
+import com.google.inject.Inject
+import play.api.data.Form
+import play.api.data.Forms.mapping
+import play.api.data.Forms._
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import slick.jdbc.MySQLProfile.api._
+ 
+case class Etudiant(val id:Long, val nom:String,prenom: String, val id_classe: Long)
+case class EtudiantFormData(nom: String,prenom: String, id_classe: Long)
 
-class Etudiant (var id:Int, nom:String, prenom:String, classe:Classe){
-  // definition des fields
-  private[this] var _idEtudiant: Int = id
-  private[this] var _nomEtudiant: String = nom
-  private[this] var _prenomEtudiant: String = prenom
-  private[this] var _classeEtudiant: Classe = classe
-  private[this] var _notes: List[Note] = null
+object EtudiantForm {
+  val form = Form(
+    mapping(
+      "nom" -> nonEmptyText,
+      "prenom" -> nonEmptyText,
+      "id_classe" -> longNumber
+    )(EtudiantFormData.apply)(EtudiantFormData.unapply)
+  )
+}
+class EtudiantTableDef(tag: Tag) extends Table[Etudiant](tag, "etudiant") {
+ 
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def nom = column[String]("nom")
+  def prenom = column[String]("prenom")
+  def id_classe = column[Long]("id_classe")
+ 
+  override def * = (id, nom,prenom, id_classe) <> (Etudiant.tupled, Etudiant.unapply)
+}
 
-  // definition de la methode permettant d'ajouter une note dans la collection _notes
-  def addNotes(note: Note): List[Note] = {
-   notes = note+:_notes // ajout de la note au debut de la liste
-    return notes
-  }
+class Etudiants @Inject()(
+    protected val dbConfigProvider: DatabaseConfigProvider)
+    (implicit executionContext: ExecutionContext)
+    extends HasDatabaseConfigProvider[JdbcProfile] {
+        var etudiants = TableQuery[EtudiantTableDef]
 
-  // getter et setter  de la variable _notes
-  def notes: List[Note] = _notes
+    def getAll: Future[Seq[Etudiant]] = {
+       dbConfig.db.run(etudiants.result)
+       }
 
-  def notes_=(value: List[Note]): Unit = {
-    _notes = value
-  }
-  // getter et setter  de la variable _idEtudiant
-  def idEtudiant: Int = _idEtudiant
+//     def add(etudiantItem: Etudiant): Future[String] = {
+//       dbConfig.db
+//       .run(etudiants += etudiantItem)
+//       .map(res => "EtudiantItem successfully added")
+//       .recover {
+//         case ex: Exception => {
+//             printf(ex.getMessage())
+//             ex.getMessage
+//         }
+//       }
+//   }
+//    def delete(id: Long): Future[Int] = {
+//     dbConfig.db.run(etudiants.filter(_.id === id).delete)
+//   }
 
-  def idEtudiant_=(value: Int): Unit = {
-    _idEtudiant = value
-  }
-  // getter et setter  de la variable _nomEtudiant
-  def nomEtudiant: String = _nomEtudiant
+// def update(etudiantItem: Etudiant): Future[Int] = {
+//     dbConfig.db
+//       .run(etudiants.filter(_.id === etudiantItem.id)
+//             .map(x => (x.libelle))
+//             .update(etudiantItem.libelle)
+//       )
+//   }
 
-  def nomEtudiant_=(value: String): Unit = {
-    _nomEtudiant = value
-  }
-  // getter et setter  de la variable _prenomEtudiant
-  def prenomEtudiant: String = _prenomEtudiant
+//   def get(id: Long): Future[Option[Etudiant]] = {
+//     dbConfig.db.run(etudiants.filter(_.id === id).result.headOption)
+//   }
+ 
+  
 
-  def prenomEtudiant_=(value: String): Unit = {
-    _prenomEtudiant = value
-  }
-
-  // getter et setter  de la variable _classeEtudiant
-  def classeEtudiant: Classe = _classeEtudiant
-
-  def classeEtudiant_=(value: Classe): Unit = {
-    _classeEtudiant = value
-  }
-  // redefinition de la methode toString
-  override def toString = s"Etudiant($id, $idEtudiant, $nomEtudiant, $prenomEtudiant, $classeEtudiant)"
 }

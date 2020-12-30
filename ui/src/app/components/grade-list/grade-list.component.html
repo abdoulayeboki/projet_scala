@@ -32,16 +32,13 @@
                     <tr>
                         <th>Id Grade</th>
                         <th>Libelle Grade</th>
-                        <th data-hide="phone,tablet">Supprimer</th>
-                        <th data-hide="phone,tablet">Edit</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="gradeX" *ngFor = "let grade of  grades">
                         <td>{{grade.id}}</td>
-                        <td>{{grade.libelle}}
-                        </td>
-                        <td>Win 95+</td>
+                        <td>{{grade.libelle}}</td>
+
                     </tr>
                     </tbody>
                     <tfoot>

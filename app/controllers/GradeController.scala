@@ -28,18 +28,18 @@ class GradeController @Inject()(
       //   }
       // }
      
-      // def add() = Action.async { implicit request: Request[AnyContent] =>
-      //   GradeForm.form.bindFromRequest.fold(
-      //     // if any error in submitted data
-      //     errorForm => {
-      //       errorForm.errors.foreach(println)
-      //       Future.successful(BadRequest("Error!"))
-      //     },
-      //     data => {
-      //       val newGradeItem = Grade(0, data.libelle)
-      //       gradeService.addItem(newGradeItem).map( _ => Redirect(routes.GradeController.getAll))
-      //     })
-      // }
+      def add() = Action.async { implicit request: Request[AnyContent] =>
+        GradeForm.form.bindFromRequest.fold(
+          // if any error in submitted data
+          errorForm => {
+            errorForm.errors.foreach(println)
+            Future.successful(BadRequest("Error!"))
+          },
+          data => {
+            val newGradeItem = Grade(0, data.libelle)
+            gradeService.addItem(newGradeItem).map( _ => Redirect(routes.GradeController.getAll))
+          })
+      }
      
       // def update(id: Long) = Action.async { implicit request: Request[AnyContent] =>
       //   GradeForm.form.bindFromRequest.fold(

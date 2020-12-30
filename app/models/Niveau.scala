@@ -1,23 +1,65 @@
 package models
-import scala.beans.BeanProperty
+import com.google.inject.Inject
+import play.api.data.Form
+import play.api.data.Forms.mapping
+import play.api.data.Forms._
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import slick.jdbc.MySQLProfile.api._
+ 
+case class Niveau(val id:Long, val libelle:String)
+case class NiveauFormData(libelle: String)
 
-class Niveau (val id:Int, val libelle:String){
-  private var _idNiveau: Int = id
-  private[this] var _libelleNiveau: String = libelle
+object NiveauForm {
+  val form = Form(
+    mapping(
+      "libelle" -> nonEmptyText
+    )(NiveauFormData.apply)(NiveauFormData.unapply)
+  )
+}
+class NiveauTableDef(tag: Tag) extends Table[Niveau](tag, "niveau") {
+ 
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def libelle = column[String]("libelle")
+ 
+  override def * = (id, libelle) <> (Niveau.tupled, Niveau.unapply)
+}
 
-  // getter libelleNiveau
-  def libelleNiveau: String = _libelleNiveau
-  // setter libelleNiveau_
-  def libelleNiveau_=(value: String): Unit = {
-    _libelleNiveau = value
+class Niveaus @Inject()(
+    protected val dbConfigProvider: DatabaseConfigProvider)
+    (implicit executionContext: ExecutionContext)
+    extends HasDatabaseConfigProvider[JdbcProfile] {
+        var niveaus = TableQuery[NiveauTableDef]
+    def add(niveauItem: Niveau): Future[String] = {
+      dbConfig.db
+      .run(niveaus += niveauItem)
+      .map(res => "NiveauItem successfully added")
+      .recover {
+        case ex: Exception => {
+            printf(ex.getMessage())
+            ex.getMessage
+        }
+      }
   }
-  // getter idNiveau
-  def idNiveau: Int = _idNiveau
-  // setter idiveau
-  private def idNiveau_=(value: Int): Unit = {
-    _idNiveau = value
+   def delete(id: Long): Future[Int] = {
+    dbConfig.db.run(niveaus.filter(_.id === id).delete)
   }
 
+def update(niveauItem: Niveau): Future[Int] = {
+    dbConfig.db
+      .run(niveaus.filter(_.id === niveauItem.id)
+            .map(x => (x.libelle))
+            .update(niveauItem.libelle)
+      )
+  }
 
-  override def toString = s"Niveau($libelleNiveau, $idNiveau)"
+  def get(id: Long): Future[Option[Niveau]] = {
+    dbConfig.db.run(niveaus.filter(_.id === id).result.headOption)
+  }
+ 
+  def getAll: Future[Seq[Niveau]] = {
+    dbConfig.db.run(niveaus.result)
+  }
+
 }
