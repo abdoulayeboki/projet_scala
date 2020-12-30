@@ -5,6 +5,8 @@ Abdoulaye SARR Master Big DATA
 Aissatou DIOP  Master  Big data
 ---------------------------------
 
+veuillez lire le fichier DIAGRAMME1.pdf sur la racine
+ qui contient notre diagramme de classe
 
 ------------------------------------------------------------------
 prerequis pour lancer le projet 
